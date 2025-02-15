@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="breadcrumb-nav">
+            <span>Workspace</span> / <span>Cash Overview</span>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mt-3" id="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} fade-out" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="balance-section mt-4">
+        <h3>Cash Flow Overview</h3>
+        <div class="row">
+            <div class="col">
+                <div class="balance-item">
+                    <h5>Initial Cash Balance</h5>
+                    <p>${{ initial_balance }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="balance-item">
+                    <h5>CFO (Cashflow from Operation)</h5>
+                    <p>${{ total_cfo }}</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="balance-item">
+                    <h5>CFI (Cashflow from Investment)</h5>
+                    <p>${{ total_cfi }}</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="balance-item">
+                    <h5>CFF (Cashflow from Financing)</h5>
+                    <p>${{ total_cff }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="balance-item">
+                    <h5>Latest Cash Balance</h5>
+                    <p>${{ balance }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Balance by Date Section -->
+    <div class="balance-section mt-4">
+        <h3>Balance by Date</h3>
+        <form id="balance-by-date-form" action="{{ url_for('balance_by_date') }}" method="post">
+            <div class="mb-3">
+                <input type="date" name="date" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate Balance</button>
+        </form>
+        <div id="balance-by-date-result" class="mt-3"></div>
+    </div>
+
+    <!-- Monthly Charts Section -->
+    <div class="monthly-charts-section mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Monthly Cash Income</h3>
+                        <canvas id="monthly-income-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Monthly Cash Expenses</h3>
+                        <canvas id="monthly-expense-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Monthly Cash Balance Trend</h3>
+                        <canvas id="monthly-balance-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Cash-out by Categories</h3>
+                        <canvas id="cashout-categories-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
