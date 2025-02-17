@@ -24,6 +24,5 @@ jobs:
           script: |
             cd /home/cooluser/kpitrackr/CashCatalyst
             git pull
-            cd ..
             docker-compose build --force-rm --no-cache --compress
             docker-compose up -d
